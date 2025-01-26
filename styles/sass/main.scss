@@ -292,5 +292,11 @@ form.container {
 		resize: none;
 		overflow: visible;
 		min-height: pixel_to_rem(100);
+		margin-bottom: 1rem;
+	}
+
+	img {
+		max-width: min(95%, pixel_to_rem(300));
+		height: auto;		
 	}
 }

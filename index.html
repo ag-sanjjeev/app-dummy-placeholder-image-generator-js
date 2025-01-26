@@ -51,18 +51,18 @@
 			<h3 class="placeholder__title">Placeholder</h3>
 			<!-- default placeholder -->
 			<div class="placeholder__radio">
-				<input type="radio" name="placeholder-input" id="default-placeholder-input" value="default" required>
+				<input type="radio" name="placeholderType" id="default-placeholder-input" value="default" required>
 				<label for="default-placeholder-input">Default</label>
 			</div>
 			<!-- custom placeholder -->
 			<div class="placeholder__radio">
-				<input type="radio" name="placeholder-input" id="custom-placeholder-input" value="custom" required>
+				<input type="radio" name="placeholderType" id="custom-placeholder-input" value="custom" required>
 				<label for="custom-placeholder-input">Custom</label>
 			</div>
 			<!-- placeholder input -->
 			<div class="placeholder__text">
 				<label for="placeholder-text-input">Placeholder Text</label>
-				<input type="text" name="placeholder" id="placeholder-text-input" >
+				<input type="text" name="placeholderText" id="placeholder-text-input" >
 			</div>
 		</div>
 		<!-- Text Colors -->
@@ -72,12 +72,12 @@
 			<!-- text color picker -->
 			<div class="text-color__picker">
 				<label for="text-color-picker-input">Pick Color</label>
-				<input type="color" name="text-color" id="text-color-picker-input" value="#00000" required>
+				<input type="color" name="textColor" id="text-color-picker-input" value="#000000" required>
 			</div>
 			<!-- text color input -->
 			<div class="text-color__input">
 				<label for="text-color-value-input">Color Value</label>
-				<input type="text" name="text-color-value" id="text-color-value-input" value="#000000" required>
+				<input type="text" name="textColorValue" id="text-color-value-input" value="#000000" required>
 			</div>
 		</div>
 		<!-- Background Type -->
@@ -86,12 +86,12 @@
 			<h3 class="background-type__title">Background Type</h3>
 			<!-- background type radio -->
 			<div class="background-type__radio">
-				<input type="radio" name="background-type-input" id="plain-background-type-input" value="plain" required>
+				<input type="radio" name="backgroundType" id="plain-background-type-input" value="plain" required>
 				<label for="plain-background-type-input">Plain Color</label>
 			</div>
 			<!-- background type radio -->
 			<div class="background-type__radio">
-				<input type="radio" name="background-type-input" id="gradient-background-type-input" value="gradient" required>
+				<input type="radio" name="backgroundType" id="gradient-background-type-input" value="gradient" required>
 				<label for="gradient-background-type-input">Gradient Color</label>
 			</div>
 		</div>
@@ -105,12 +105,12 @@
 					<!-- background color picker -->
 					<div class="background-color__picker">
 						<label for="background-color-picker-input">Pick Color</label>
-						<input type="color" name="background-color" id="background-color-picker-input" value="#FFFFFF" required>
+						<input type="color" name="backgroundColor" id="background-color-picker-input" value="#FFFFFF" required>
 					</div>
 					<!-- background color input -->
 					<div class="background-color__input">
 						<label for="background-color-value-input">Color Value</label>
-						<input type="text" name="background-color-value" id="background-color-value-input" value="#FFFFFF" required>
+						<input type="text" name="backgroundColorValue" id="background-color-value-input" value="#FFFFFF" required>
 					</div>
 				</li>
 			</ul>
@@ -119,7 +119,7 @@
 		</div>
 		<!-- Action Buttons -->
 		<div class="action-button">
-			<button type="button" class="action-button__generate">Generate</button>
+			<button type="button" class="action-button__generate" onclick="generateDummyImage(this.form);">Generate</button>
 			<button type="button" class="action-button__download">Download</button>
 		</div>
 	</form>
