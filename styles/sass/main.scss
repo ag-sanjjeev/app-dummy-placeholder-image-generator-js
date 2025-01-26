@@ -26,10 +26,6 @@ body {
 }
 
 .app {
-	/*position: absolute;*/
-	/*top: 50%;*/
-	/*left: 50%;*/
-	/*translate: -50% -50%;*/
  	width: min(95%, pixel_to_rem(300));
  	height: auto;
  	background-color: $extra-light;
@@ -81,7 +77,15 @@ form.container {
 				height: pixel_to_rem(32);
 				padding: pixel_to_rem(2) pixel_to_rem(5);
 				border-radius: pixel_to_rem(5);
-				border: 1px solid rgba($light-blue, 0.5);				
+				border: 1px solid rgba($light-blue, 0.5);
+
+				/*User valid*/
+				&:valid {
+					border: 1px solid rgba($light-green, 0.75);
+				}
+				&:invalid {
+					border: 1px solid rgba($light-red, 0.75);
+				}
 			}
 		}
 	}
