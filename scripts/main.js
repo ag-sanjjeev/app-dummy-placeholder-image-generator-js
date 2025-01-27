@@ -11,6 +11,76 @@
  * 
  */
 
+// Global constants
+const placeholderType = document.querySelectorAll('input[name="placeholderType"]');
+const textColor = document.querySelector('input[name="textColor"]');
+const textColorValue = document.querySelector('input[name="textColorValue"]');
+const backgroundType = document.querySelectorAll('input[name="backgroundType"]');
+const addBackgroundColor = document.getElementById('add-background-color');
+const backgroundColor_list = document.querySelector('.background-color__list');
+const backgroundListItemTemplate = document.getElementById('backgroundColor-list-item');
+
+// Event Listeners
+// Placeholder radio change event listener
+placeholderType.forEach(function(element) {
+	element.addEventListener('change', function(event) {
+		let value = event.target.value;
+		let placeholder__text = document.querySelector('.placeholder__text');
+		if (value === 'default') {
+			placeholder__text.children.placeholderText.disabled = true;
+			placeholder__text.style.height = "0px";
+		} else {
+			placeholder__text.children.placeholderText.disabled = false;
+			placeholder__text.style.height = "auto";
+		}
+	});
+});
+// Text color picker input event listener
+textColor.addEventListener('change', function(event) {
+	let value = event.target.value;
+	if (isValidColor(value)) {
+		textColorValue.value = value;
+	}
+});
+// Text color value input event listener
+textColorValue.addEventListener('input', function(event) {
+	let value = event.target.value;
+	if (isValidColor(value)) {
+		textColor.value = value;
+	}
+});
+// Background type radio change event lister
+backgroundType.forEach(function(element) {
+	element.addEventListener('change', function(event) {
+		let value = event.target.value;
+		let background_color = document.querySelector('.background-color');
+		if (value === 'plain') {
+				addBackgroundColor.disabled = true;	
+		} else {
+				addBackgroundColor.disabled = false;
+		}
+		resetBackgroundColorList(value);			
+	});
+}); 
+// Add background color button event lister 
+addBackgroundColor.addEventListener('click', function(event) {
+	let __backgroundTypeChecked = document.querySelector('input[name=backgroundType]:checked');
+	if (__backgroundTypeChecked != null) {		
+		addBackgroundColorListItem(__backgroundTypeChecked.value);
+	}
+	return false;
+});
+// Remove current background color list item button event listener
+document.body.addEventListener('click', function(event) {
+	let target = event.target.closest('.remove-current-list-button');
+	if (target != null) {
+		let parent = target.parentElement;	
+		backgroundColor_list.removeChild(parent);	
+	}
+});
+
+
+// function to generate dummy image
 function generateDummyImage(form) {	
   let width_input = form.width.value;
   let height_input = form.height.value;
@@ -92,4 +162,68 @@ function generateDummyImage(form) {
   imagePreview.download = fileName;  
 
   return true;
+}
+
+// function to check valid hexadecimal color code
+function isValidColor(hexCode) {
+	let validation = false;
+	let re = null;
+	
+	re = /^#[0-9a-fA-F]{3}$/i;
+	if (re.test(hexCode)) {
+		return true;
+	}
+
+	re = /^#[0-9a-fA-F]{6}$/i;
+	if (re.test(hexCode)) {
+		return true;
+	}
+
+	re = /^#[0-9a-fA-F]{6}[0-9a-fA-F]{0,2}$/i;
+	if (re.test(hexCode)) {
+		return true;
+	}
+
+	return false;
+}
+
+// function to add background color list item
+function addBackgroundColorListItem(backgroundType) {	
+	
+}
+
+// function to reset background color list item
+function resetBackgroundColorList(_bgType) {
+	if (_bgType == 'plain') {
+		// remove any children	
+		for(let child of backgroundColor_list.children) {
+			backgroundColor_list.removeChild(child);
+		}
+		// add new child
+		let clone = backgroundListItemTemplate.content.cloneNode(true);
+		backgroundColor_list.appendChild(clone);
+		clone = null;
+
+		return true;
+	}
+
+	if (_bgType == 'gradient') {
+		// remove any children	
+		for(let child of backgroundColor_list.children) {
+			backgroundColor_list.removeChild(child);
+		}
+		// add new child
+		let id = '';
+		let clone = backgroundListItemTemplate.content.cloneNode(true);		
+		id = clone.querySelector('input[name="backgroundColor"]').id;
+		clone.querySelector('input[name="backgroundColor"]').id = id + '-1';
+		id = clone.querySelector('input[name="backgroundColorValue"]').id;
+		clone.querySelector('input[name="backgroundColorValue"]').id = id + '-1'; 
+		backgroundColor_list.appendChild(clone);
+		clone = null;
+
+		return true;
+	}
+
+	return false;
 }

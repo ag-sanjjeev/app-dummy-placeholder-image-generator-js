@@ -133,6 +133,9 @@ form.container {
 
 		&__text {
 			width: 100%;
+			height: auto;
+			overflow-y: clip;
+			transition: height 1s ease;
 			label {
 				display: block;
 				margin: pixel_to_rem(5) 0;
@@ -231,9 +234,26 @@ form.container {
 			padding: 0 0.25rem;
 
 			li.item {
-				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
+				display: flex;
+				justify-content: center;
+				align-items: flex-end;
 				margin-bottom: 0.25rem;
+
+				.remove-current-list-button {
+					width: 4rem;
+					align-self: flex-end;		
+					aspect-ratio: 1;
+					border-radius: pixel_to_rem(5);
+					border: 1px solid rgba($red, 0.75);
+					background-color: $white;
+					color: rgba($red, 0.75);
+					font-size: clamp(1rem, 1.25vw, 2rem);
+					cursor: pointer;
+					&:hover, &:focus, &:active {
+						background-color: rgba($red, 0.75);
+						color: $white;
+					}
+				}
 			}
 		}
 
@@ -253,7 +273,7 @@ form.container {
 			}
 		}
 
-		button {			
+		&__button {			
 			grid-column: span 2;
 			margin: 0.25rem 0.5rem 0 0.5rem; 
 			padding: 0.2rem 0;
@@ -262,6 +282,10 @@ form.container {
 			background-color: $white;
 			color: $light-blue;
 			cursor: pointer;
+			&:hover, &:focus, &:active {
+				color: $white;
+				background-color: $light-blue;
+			}
 		}
 	}
 
@@ -279,6 +303,10 @@ form.container {
 			background-color: $white;
 			color: $light-blue;
 			cursor: pointer;
+			&:hover, &:focus, &:active {
+				color: $white;
+				background-color: $light-blue;
+			}
 		}
 	}
 }

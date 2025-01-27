@@ -112,10 +112,12 @@
 						<label for="background-color-value-input">Color Value</label>
 						<input type="text" name="backgroundColorValue" id="background-color-value-input" value="#FFFFFF" required>
 					</div>
+					<!-- remove current list item -->
+					<button type="button" class="remove-current-list-button">&times;</button>
 				</li>
 			</ul>
 			<!-- background color button -->
-			<button type="button" class="background-color__button">Add Color</button>
+			<button type="button" class="background-color__button" id="add-background-color">Add Color</button>
 		</div>
 		<!-- Action Buttons -->
 		<div class="action-button">
@@ -131,6 +133,22 @@
 		<img src="#" id="image-preview" draggable="false">
 	</div>
 </section>
+
+<template id="backgroundColor-list-item">
+	<li class="item">
+		<!-- background color picker -->
+		<div class="background-color__picker">
+			<label for="background-color-picker-input">Pick Color</label>
+			<input type="color" name="backgroundColor" id="background-color-picker-input" value="#FFFFFF" required>
+		</div>
+		<!-- background color input -->
+		<div class="background-color__input">
+			<label for="background-color-value-input">Color Value</label>
+			<input type="text" name="backgroundColorValue" id="background-color-value-input" value="#FFFFFF" required>
+		</div>
+		<button type="button" class="remove-current-list-button">&times;</button>
+	</li>
+</template>
 
 <!-- Scripts -->
 <script type="text/javascript" src="./scripts/main.js"></script>
