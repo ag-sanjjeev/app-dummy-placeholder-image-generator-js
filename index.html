@@ -142,7 +142,7 @@
 		<!-- Action Buttons -->
 		<div class="action-button">
 			<button type="button" class="action-button__generate" onclick="generateDummyImage(this.form);">Generate</button>
-			<button type="button" class="action-button__download">Download</button>
+			<a href="#" class="action-button__download" id="download-button" downloadsub>Download</a>
 		</div>
 	</form>
 	<!-- Image Container -->
@@ -154,6 +154,7 @@
 	</div>
 </section>
 
+<!-- Template for background type gradient color list -->
 <template id="backgroundColor-list-item">
 	<li class="item" data-reference="1">
 		<!-- background color picker -->

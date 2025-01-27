@@ -148,6 +148,7 @@ function generateDummyImage(form) {
   let backgroundType_input = form.backgroundType.value;
   let imageDataBox = document.getElementById('image-data');
   let imagePreview = document.getElementById('image-preview');
+  let downloadButton = document.getElementById('download-button');
   let fontSize = 20; // in pixel
 
   let fileName = `${width_input}x${height_input}`;
@@ -248,8 +249,8 @@ function generateDummyImage(form) {
 
   imageDataBox.innerText = dataUrl;
   imagePreview.src = dataUrl;
-  imagePreview.href = dataUrl;
-  imagePreview.download = fileName;  
+  downloadButton.href = dataUrl;
+  downloadButton.download = fileName;  
 
   return true;
 }
