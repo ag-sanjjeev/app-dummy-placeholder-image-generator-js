@@ -19,6 +19,8 @@ const backgroundType = document.querySelectorAll('input[name="backgroundType"]')
 const backgroundGradient = document.querySelector('.background-gradient');
 const addBackgroundColor = document.getElementById('add-background-color');
 const backgroundColor_list = document.querySelector('.background-color__list');
+const imageDataBox = document.getElementById('image-data');
+const imagePreview = document.getElementById('image-preview');
 const backgroundListItemTemplate = document.getElementById('backgroundColor-list-item');
 
 // Event Listeners
@@ -136,6 +138,33 @@ document.body.addEventListener('input', function(event) {
 		}
 	}
 });
+// Image data textarea click event listener
+imageDataBox.addEventListener('click', async function(event) {
+	try {
+		let text = event.target.value;
+		await navigator.clipboard.writeText(text);		
+	} catch(error) {
+		console.error(error);
+		alert('Unable to copy\nCopy manually');
+	}
+	alert('Data URL copied to clipboard');
+});  
+// Image preview click event listener
+imagePreview.addEventListener('click', async function(event) {
+	try {
+		let imageDataURL = event.target.src;
+		const blob = await (await fetch(imageDataURL)).blob();
+		await navigator.clipboard.write([
+			new ClipboardItem({
+				[blob.type]: blob
+			})
+		]);
+	} catch(error) {
+		console.error(error);
+		alert('Unable to copy\nPrefer to download');
+	}
+	alert('Image copied to clipboard')
+});
 
 // function to generate dummy image
 function generateDummyImage(form) {	
@@ -146,8 +175,6 @@ function generateDummyImage(form) {
   let textColor_input = form.textColor.value;
   let textColorValue_input = form.textColorValue.value;
   let backgroundType_input = form.backgroundType.value;
-  let imageDataBox = document.getElementById('image-data');
-  let imagePreview = document.getElementById('image-preview');
   let downloadButton = document.getElementById('download-button');
   let fontSize = 20; // in pixel
 
@@ -168,7 +195,7 @@ function generateDummyImage(form) {
   	return false;
   }
 
-  if (placeholderType_input == 'custom' && placeholderText_input.trim() !== "") {
+  if (placeholderType_input == 'custom') {
     placeholderText = placeholderText_input;
   }
   // canvas for dummy image generation
@@ -226,16 +253,18 @@ function generateDummyImage(form) {
   const scaleFactor = canvas.width / textWidth;
   fontSize *= scaleFactor;
 
-  // adjust font size to prevent overflow
-  while(canvasContext.measureText(placeholderText).width < (canvas.width * 0.5)) {
-  	fontSize +=1;
-  	canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
-  }
+	// adjust font size to prevent overflow when placeholder text is not an empty
+  if (placeholderText.trim() != "") {
+	  while(canvasContext.measureText(placeholderText).width < (canvas.width * 0.5)) {
+	  	fontSize +=1;
+	  	canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
+	  }
 
-  while(canvasContext.measureText(placeholderText).width > (canvas.width * 0.5)) {
-  	fontSize -=1;
-  	canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
-  }
+	  while(canvasContext.measureText(placeholderText).width > (canvas.width * 0.5)) {
+	  	fontSize -=1;
+	  	canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
+	  }
+	}
 
   // set placeholder text
   canvasContext.fillStyle = textColor_input;
@@ -282,7 +311,6 @@ function isValidColor(hexCode) {
 function addBackgroundColorListItem() {	
 	let referenceNumber = parseInt(backgroundColor_list.querySelector('li.item:last-child').dataset.reference);
 	referenceNumber++;
-	console.log(backgroundColor_list.querySelector('li.item:last-child').dataset.reference, referenceNumber);
 	let clone = backgroundListItemTemplate.content.cloneNode(true);
 	clone.querySelector('li.item').dataset.reference = referenceNumber;
 	reference = clone.querySelector('input.backgroundColor').id;
