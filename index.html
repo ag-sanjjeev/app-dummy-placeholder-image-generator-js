@@ -37,12 +37,12 @@
 			<!-- width input -->
 			<div class="dimension__width">
 				<label for="width-input">Width</label>
-				<input type="number" name="width" id="width-input" min="10" max="16000" value="10" required>
+				<input type="number" name="width" id="width-input" min="10" max="16000" value="100" required>
 			</div>
 			<!-- height input -->
 			<div class="dimension__height">
 				<label for="height-input">Height</label>
-				<input type="number" name="height" id="height-input" min="10" max="16000" value="10" required>
+				<input type="number" name="height" id="height-input" min="10" max="16000" value="100" required>
 			</div>
 		</div>
 		<!-- Placeholder -->
@@ -93,6 +93,26 @@
 			<div class="background-type__radio">
 				<input type="radio" name="backgroundType" id="gradient-background-type-input" value="gradient" required>
 				<label for="gradient-background-type-input">Gradient Color</label>
+			</div>
+		</div>
+		<!-- background gradient type -->
+		<div class="background-gradient">
+			<!-- section title -->
+			<h3 class="background-gradient__title">Gradient Direction</h3>
+			<!-- background gradient radio -->
+			<div class="background-gradient__radio">
+				<input type="radio" name="backgroundGradient" id="horizontal-gradient-input" value="horizontal" checked required>
+				<label for="horizontal-gradient-input">Horizontal</label>
+			</div>
+			<!-- background gradient radio -->
+			<div class="background-gradient__radio">
+				<input type="radio" name="backgroundGradient" id="vertical-gradient-input" value="vertical" required>
+				<label for="vertical-gradient-input">vertical</label>
+			</div>
+			<!-- background gradient radio -->
+			<div class="background-gradient__radio">
+				<input type="radio" name="backgroundGradient" id="diagonal-gradient-input" value="diagonal" required>
+				<label for="diagonal-gradient-input">Diagonal</label>
 			</div>
 		</div>
 		<!-- background Color  -->

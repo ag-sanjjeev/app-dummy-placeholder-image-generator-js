@@ -108,12 +108,12 @@ form.container {
 			width: 100%;
 			padding: 0 0.25rem;
 			label {
+				width: 100%;
+				padding: 0.25rem 0 !important;
 				display: flex;
 				flex-wrap: wrap;
-				width: 100%;
 				justify-content: center;
 				align-content: center;
-				height: pixel_to_rem(32);
 				padding: pixel_to_rem(2) pixel_to_rem(5);
 				border-radius: pixel_to_rem(5);
 				border: 1px solid rgba($light-blue, 0.5);				
@@ -193,12 +193,51 @@ form.container {
 			width: 100%;
 			padding: 0 0.25rem;
 			label {
+				width: 100%;
+				padding: 0.25rem 0 !important;
 				display: flex;
 				flex-wrap: wrap;
-				width: 100%;
 				justify-content: center;
-				align-content: center;
-				height: minmax(pixel_to_rem(32), auto);
+				align-content: center;				
+				padding: pixel_to_rem(2) pixel_to_rem(5);
+				border-radius: pixel_to_rem(5);
+				border: 1px solid rgba($light-blue, 0.5);				
+				background-color: $white;
+				color: $light-blue;
+				cursor: pointer;
+			}
+
+			input[type="radio"] {
+				display: none;
+				&:checked + label {
+					background-color: $light-blue;
+					color: $white;
+				}
+			}
+		}
+	}
+
+	/*Background Gradient Section*/
+	.background-gradient {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0,1fr));
+		@extend %section-padding;
+
+		&__title {
+			grid-column: span 3;
+			margin-bottom: 0.25rem;
+		}
+
+		&__radio {
+			width: 100%;
+			padding: 0 0.25rem;
+			label {
+				width: 100%;
+				padding: 0.25rem 0 !important;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-content: center;				
 				padding: pixel_to_rem(2) pixel_to_rem(5);
 				border-radius: pixel_to_rem(5);
 				border: 1px solid rgba($light-blue, 0.5);				

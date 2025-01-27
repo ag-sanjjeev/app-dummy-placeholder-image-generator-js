@@ -16,6 +16,7 @@ const placeholderType = document.querySelectorAll('input[name="placeholderType"]
 const textColor = document.querySelector('input[name="textColor"]');
 const textColorValue = document.querySelector('input[name="textColorValue"]');
 const backgroundType = document.querySelectorAll('input[name="backgroundType"]');
+const backgroundGradient = document.querySelector('.background-gradient');
 const addBackgroundColor = document.getElementById('add-background-color');
 const backgroundColor_list = document.querySelector('.background-color__list');
 const backgroundListItemTemplate = document.getElementById('backgroundColor-list-item');
@@ -39,9 +40,11 @@ window.addEventListener('load', function() {
 		if (value === 'plain') {
 				addBackgroundColor.disabled = true;	
 				addBackgroundColor.style.display = 'none';
+				backgroundGradient.style.display = 'none';
 		} else {
 				addBackgroundColor.disabled = false;
 				addBackgroundColor.style.display = 'block';
+				backgroundGradient.style.display = 'grid';
 		}
 		resetBackgroundColorList(value);	
 }, false);
@@ -80,9 +83,11 @@ backgroundType.forEach(function(element) {
 		if (value === 'plain') {
 				addBackgroundColor.disabled = true;	
 				addBackgroundColor.style.display = 'none';
+				backgroundGradient.style.display = 'none';
 		} else {
 				addBackgroundColor.disabled = false;
 				addBackgroundColor.style.display = 'block';
+				backgroundGradient.style.display = 'grid';
 		}
 		resetBackgroundColorList(value);			
 	});
@@ -132,7 +137,6 @@ document.body.addEventListener('input', function(event) {
 	}
 });
 
-
 // function to generate dummy image
 function generateDummyImage(form) {	
   let width_input = form.width.value;
@@ -142,8 +146,6 @@ function generateDummyImage(form) {
   let textColor_input = form.textColor.value;
   let textColorValue_input = form.textColorValue.value;
   let backgroundType_input = form.backgroundType.value;
-  let backgroundColor_input = form.backgroundColor.value;
-  let backgroundColorValue_input = form.backgroundColorValue.value;
   let imageDataBox = document.getElementById('image-data');
   let imagePreview = document.getElementById('image-preview');
   let fontSize = 20; // in pixel
@@ -165,24 +167,57 @@ function generateDummyImage(form) {
   	return false;
   }
 
-  // background color validation
-  if (backgroundColor_input.toUpperCase() !== backgroundColorValue_input.toUpperCase()) {
-  	return false;
-  }
-
-  if (placeholderType_input == 'custom' && placeholderText_input.trim() == "") {
+  if (placeholderType_input == 'custom' && placeholderText_input.trim() !== "") {
     placeholderText = placeholderText_input;
   }
   // canvas for dummy image generation
   const canvas = document.createElement("canvas");
   const canvasContext = canvas.getContext("2d");
 
+  // sets canvas dimension
   canvas.width = width_input;
   canvas.height = height_input;
 
-  canvasContext.fillStyle = backgroundColor_input;
-  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+  let __backgroundTypeChecked = document.querySelector('input[name="backgroundType"]:checked').value;
+  let backgroundColor = '';
 
+  // set plain background color
+  if (__backgroundTypeChecked == 'plain') {
+  	for (let child of backgroundColor_list.querySelectorAll('li.item')) {
+  		 backgroundColor = child.querySelector('.backgroundColor').value;
+  		 break;
+  	}
+  	canvasContext.fillStyle = backgroundColor;
+  }
+
+  // set gradient background
+  if (__backgroundTypeChecked == 'gradient') {
+  	let gradient = null;
+  	let gradientDirection = document.querySelector('input[name="backgroundGradient"]:checked');
+  	gradientDirection = (gradientDirection == null) ? 'diagonal' : gradientDirection.value;
+
+  	if (gradientDirection == 'horizontal') {
+  		gradient = canvasContext.createLinearGradient(0, 0, canvas.width, 0);
+  	}
+  	if (gradientDirection == 'vertical') {
+  		gradient = canvasContext.createLinearGradient(0, 0, 0, canvas.height);
+  	}
+  	if (gradientDirection == 'diagonal') {
+  		gradient = canvasContext.createLinearGradient(0, 0, canvas.width, canvas.height);
+  	}
+
+  	let children = backgroundColor_list.querySelectorAll('li.item');
+  	let stopFactor = 1/children.length;
+  	let stopValue = 0;
+  	for (let child of children) {
+  		gradient.addColorStop(stopValue, child.querySelector('.backgroundColor').value);
+  		stopValue += stopFactor; 
+  	}
+  	canvasContext.fillStyle = gradient;
+  }
+
+  // set font style
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
   canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
   
   // measure font size
@@ -201,12 +236,14 @@ function generateDummyImage(form) {
   	canvasContext.font = `bold ${fontSize}px system-ui, Segoe UI, Roboto, Arial`;
   }
 
+  // set placeholder text
   canvasContext.fillStyle = textColor_input;
   canvasContext.textAlign = "center";
   canvasContext.textBaseline = "middle";
 
   canvasContext.fillText(placeholderText, canvas.width / 2, canvas.height / 2);
 
+  // generates data URL for image
   const dataUrl = canvas.toDataURL();
 
   imageDataBox.innerText = dataUrl;
