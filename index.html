@@ -51,7 +51,7 @@
 			<h3 class="placeholder__title">Placeholder</h3>
 			<!-- default placeholder -->
 			<div class="placeholder__radio">
-				<input type="radio" name="placeholderType" id="default-placeholder-input" value="default" required>
+				<input type="radio" name="placeholderType" id="default-placeholder-input" value="default" checked required>
 				<label for="default-placeholder-input">Default</label>
 			</div>
 			<!-- custom placeholder -->
@@ -86,7 +86,7 @@
 			<h3 class="background-type__title">Background Type</h3>
 			<!-- background type radio -->
 			<div class="background-type__radio">
-				<input type="radio" name="backgroundType" id="plain-background-type-input" value="plain" required>
+				<input type="radio" name="backgroundType" id="plain-background-type-input" value="plain" checked required>
 				<label for="plain-background-type-input">Plain Color</label>
 			</div>
 			<!-- background type radio -->
@@ -135,16 +135,16 @@
 </section>
 
 <template id="backgroundColor-list-item">
-	<li class="item">
+	<li class="item" data-reference="1">
 		<!-- background color picker -->
 		<div class="background-color__picker">
-			<label for="background-color-picker-input">Pick Color</label>
-			<input type="color" name="backgroundColor" id="background-color-picker-input" value="#FFFFFF" required>
+			<label for="backgroundColor-input">Pick Color</label>
+			<input type="color" name="backgroundColor" id="backgroundColor-input" class="backgroundColor" value="#FFFFFF" required>
 		</div>
 		<!-- background color input -->
 		<div class="background-color__input">
-			<label for="background-color-value-input">Color Value</label>
-			<input type="text" name="backgroundColorValue" id="background-color-value-input" value="#FFFFFF" required>
+			<label for="backgroundColorValue-input">Color Value</label>
+			<input type="text" name="backgroundColorValue" id="backgroundColorValue-input" class="backgroundColorValue" value="#FFFFFF" required>
 		</div>
 		<button type="button" class="remove-current-list-button">&times;</button>
 	</li>

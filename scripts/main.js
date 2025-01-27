@@ -21,6 +21,30 @@ const backgroundColor_list = document.querySelector('.background-color__list');
 const backgroundListItemTemplate = document.getElementById('backgroundColor-list-item');
 
 // Event Listeners
+// Window load event listener
+window.addEventListener('load', function() {
+		// initiate placeholder
+		let value = document.querySelector('input[name="placeholderType"]:checked').value;		
+		let placeholder__text = document.querySelector('.placeholder__text');
+		if (value === 'default') {
+			placeholder__text.children.placeholderText.disabled = true;
+			placeholder__text.style.height = "0px";
+		} else {
+			placeholder__text.children.placeholderText.disabled = false;
+			placeholder__text.style.height = "auto";
+		}
+
+		// initiate background type
+		value = document.querySelector('input[name="backgroundType"]:checked').value;		
+		if (value === 'plain') {
+				addBackgroundColor.disabled = true;	
+				addBackgroundColor.style.display = 'none';
+		} else {
+				addBackgroundColor.disabled = false;
+				addBackgroundColor.style.display = 'block';
+		}
+		resetBackgroundColorList(value);	
+}, false);
 // Placeholder radio change event listener
 placeholderType.forEach(function(element) {
 	element.addEventListener('change', function(event) {
@@ -53,11 +77,12 @@ textColorValue.addEventListener('input', function(event) {
 backgroundType.forEach(function(element) {
 	element.addEventListener('change', function(event) {
 		let value = event.target.value;
-		let background_color = document.querySelector('.background-color');
 		if (value === 'plain') {
 				addBackgroundColor.disabled = true;	
+				addBackgroundColor.style.display = 'none';
 		} else {
 				addBackgroundColor.disabled = false;
+				addBackgroundColor.style.display = 'block';
 		}
 		resetBackgroundColorList(value);			
 	});
@@ -65,8 +90,8 @@ backgroundType.forEach(function(element) {
 // Add background color button event lister 
 addBackgroundColor.addEventListener('click', function(event) {
 	let __backgroundTypeChecked = document.querySelector('input[name=backgroundType]:checked');
-	if (__backgroundTypeChecked != null) {		
-		addBackgroundColorListItem(__backgroundTypeChecked.value);
+	if (__backgroundTypeChecked != null && __backgroundTypeChecked.value == 'gradient') {		
+		addBackgroundColorListItem();
 	}
 	return false;
 });
@@ -76,6 +101,34 @@ document.body.addEventListener('click', function(event) {
 	if (target != null) {
 		let parent = target.parentElement;	
 		backgroundColor_list.removeChild(parent);	
+	}
+});
+// Background color input change event listener
+document.body.addEventListener('change', function(event) {
+	let target = event.target.closest('.backgroundColor');
+	let referenceNumber = 0;
+	if (target != null) {
+		referenceNumber = target.parentElement.parentElement.dataset.reference;
+		let backgroundColor = document.getElementById(`backgroundColor-input-${referenceNumber}`);
+		let value = backgroundColor.value;
+		if (isValidColor(value)) {
+			let backgroundColorValue = document.getElementById(`backgroundColorValue-input-${referenceNumber}`);
+			backgroundColorValue.value = value;
+		}
+	}
+});
+// Background color value input change event listener
+document.body.addEventListener('input', function(event) {
+	let target = event.target.closest('.backgroundColorValue');
+	let referenceNumber = 0;
+	if (target != null) {
+		referenceNumber = target.parentElement.parentElement.dataset.reference;
+		let backgroundColorValue = document.getElementById(`backgroundColorValue-input-${referenceNumber}`);
+		let value = backgroundColorValue.value;
+		if (isValidColor(value)) {
+			let backgroundColor = document.getElementById(`backgroundColor-input-${referenceNumber}`);
+			backgroundColor.value = value;
+		}
 	}
 });
 
@@ -188,42 +241,50 @@ function isValidColor(hexCode) {
 }
 
 // function to add background color list item
-function addBackgroundColorListItem(backgroundType) {	
-	
+function addBackgroundColorListItem() {	
+	let referenceNumber = parseInt(backgroundColor_list.querySelector('li.item:last-child').dataset.reference);
+	referenceNumber++;
+	console.log(backgroundColor_list.querySelector('li.item:last-child').dataset.reference, referenceNumber);
+	let clone = backgroundListItemTemplate.content.cloneNode(true);
+	clone.querySelector('li.item').dataset.reference = referenceNumber;
+	reference = clone.querySelector('input.backgroundColor').id;
+	reference += `-${referenceNumber}`;
+	clone.querySelector('input.backgroundColor').id = reference;
+	clone.querySelector('input.backgroundColor').name = reference;
+	reference = clone.querySelector('input.backgroundColorValue').id;
+	reference += `-${referenceNumber}`;
+	clone.querySelector('input.backgroundColorValue').id = reference; 
+	clone.querySelector('input.backgroundColorValue').name = reference; 
+	backgroundColor_list.appendChild(clone);
+	clone = null;
+	return true;
 }
 
 // function to reset background color list item
 function resetBackgroundColorList(_bgType) {
+	// remove any children	
+	for(let child of backgroundColor_list.querySelectorAll('li.item')) {
+		backgroundColor_list.removeChild(child);
+	}
+	// add new child
+	let reference = '';
+	let clone = backgroundListItemTemplate.content.cloneNode(true);
+	clone.querySelector('li.item').dataset.reference = 1;
+	reference = clone.querySelector('input.backgroundColor').id;
+	reference += '-1';
+	clone.querySelector('input.backgroundColor').id = reference;
+	clone.querySelector('input.backgroundColor').name = reference;
+	reference = clone.querySelector('input.backgroundColorValue').id;
+	reference += '-1';
+	clone.querySelector('input.backgroundColorValue').id = reference; 
+	clone.querySelector('input.backgroundColorValue').name = reference; 
+
 	if (_bgType == 'plain') {
-		// remove any children	
-		for(let child of backgroundColor_list.children) {
-			backgroundColor_list.removeChild(child);
-		}
-		// add new child
-		let clone = backgroundListItemTemplate.content.cloneNode(true);
-		backgroundColor_list.appendChild(clone);
-		clone = null;
-
-		return true;
+		clone.querySelector('.remove-current-list-button').style.display = 'none';
 	}
 
-	if (_bgType == 'gradient') {
-		// remove any children	
-		for(let child of backgroundColor_list.children) {
-			backgroundColor_list.removeChild(child);
-		}
-		// add new child
-		let id = '';
-		let clone = backgroundListItemTemplate.content.cloneNode(true);		
-		id = clone.querySelector('input[name="backgroundColor"]').id;
-		clone.querySelector('input[name="backgroundColor"]').id = id + '-1';
-		id = clone.querySelector('input[name="backgroundColorValue"]').id;
-		clone.querySelector('input[name="backgroundColorValue"]').id = id + '-1'; 
-		backgroundColor_list.appendChild(clone);
-		clone = null;
+	backgroundColor_list.appendChild(clone);
+	clone = null;
 
-		return true;
-	}
-
-	return false;
+	return true;
 }
