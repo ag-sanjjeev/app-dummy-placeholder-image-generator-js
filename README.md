@@ -1,6 +1,6 @@
 # Dummy Image Generator
 
-This is a JavaScript based dummy/placeholder image generator application that runs on web browser.
+This is a JavaScript based dummy placeholder image generator application that runs on web browser.
 
 ## &#9873; Purpose
 This repository contains JavaScript project that can be used to generate sample image on your web browser.
@@ -27,7 +27,7 @@ This project has following features that can be usable:
 
 To use this project. Following these steps:
 
-1. You can navigate to the demo link [Dummy Placeholder Image Generator Page](https://arathinai.blogspot.com/p/dummy-placeholder-image-generator-application.html).
+1. You can navigate to the demo link [Dummy Placeholder Image Generator Page](https://arathinai.blogspot.com/p/dummy-placeholder-image-generator-js.html).
 
 **Or If you want run on you system then follow these steps:**
 
